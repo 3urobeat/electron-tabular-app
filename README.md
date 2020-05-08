@@ -11,6 +11,7 @@ This app is intentionally very basic and was made for my mom to quickly and easi
 * Add new rows - also between other rows
 * Edit rows
 * Search in columns
+* Automatically add date when adding row if 'date' column exists with customizeable date format
 * Export tabular to Excel
 
 ## Download & Start
