@@ -1,0 +1,15 @@
+{
+  "name": "electron-tabular-app",
+  "version": "1.0.0",
+  "description": "An electron app to save data in a json file, display it in a tabular and search in it.",
+  "main": "./src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "3urobeat",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^8.2.0",
+    "exceljs": "^3.8.2"
+  }
+}

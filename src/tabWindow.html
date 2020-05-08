@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    body {
+        background-color: white; }
+    table, td {
+        border: 1px solid black;
+    }
+</style>
+
+<head>
+    <title>Loading...</title>
+</head>
+
+<body>
+    <script>
+        const electron = require('electron');
+        const tabnumber = electron.remote.getCurrentWindow().tabnumber;
+        const thistab = require(`../Tabulars/tab${tabnumber}`);
+
+        if (require("../config.json").language === "english") var lang = require("./languages/english.json")
+        if (require("../config.json").language === "german") var lang = require("./languages/german.json")
+    </script>
+
+    <section id="tabularsection">
+        <h2><script>document.write(lang.tabular);</script> <script>document.write(tabnumber);</script>: <script>document.write(thistab.name);</script></h2>
+        <form id="tabularsectionform"></form>
+
+        <button onclick="electron.ipcRenderer.send('tabAddRowButtonPress', tabnumber)" id="tabAddRowBtn"><script>document.write(lang.addrow)</script></button>
+    </section>
+    <section id="searchsection">
+        <h2><script>document.write(lang.search);</script></h2>
+        <input type="text" id="searchinput"></input>
+        <button type="submit" id="searchbtn" disabled><script>document.write(lang.search2);</script></button>
+        <form id="columncategory"></form>
+    </section>
+</body>
+
+<script>
+    require("./tabWindow.js")
+</script>
+
+</html>

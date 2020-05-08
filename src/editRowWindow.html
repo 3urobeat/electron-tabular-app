@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    body {
+        background-color: white; }
+</style>
+
+<head>
+    <title>Loading...</title>
+
+    <script>
+        if (require("../config.json").language === "english") var lang = require("./languages/english.json")
+        if (require("../config.json").language === "german") var lang = require("./languages/german.json")
+    </script>
+</head>
+
+<body>
+    <h1><script>document.write(lang.editrow)</script>:</h1>
+    <form id="editRowValueInput"></form>
+    <button id="editRowSaveBtn"><script>document.write(lang.save)</script></button>
+</body>
+
+<script>
+    require("./editRowWindow.js")
+</script>
+
+</html>

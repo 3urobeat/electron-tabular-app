@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    body {
+        background-color: white; }
+    table, td {
+        border: 1px solid black;
+    }
+</style>
+
+<head>
+    <title>Loading...</title>
+
+    <script>
+        const electron = require('electron');
+        if (require("../config.json").language === "english") var lang = require("./languages/english.json")
+        if (require("../config.json").language === "german") var lang = require("./languages/german.json")
+    </script>
+</head>
+
+<body>
+    <h1><script>document.write(lang.searchresults)</script>:</h1>
+    <form id="tabularsectionform"></form>
+    <button onclick="window.close()"><script>document.write(lang.close)</script></button>
+</body>
+
+<script>
+    require("./searchResultWindow.js")
+</script>
+
+</html>
