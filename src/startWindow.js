@@ -4,6 +4,10 @@ if (require("../config.json").language === "german") var lang = require("./langu
 
 document.title = `${lang.start} - Electron Tabular App`
 
+electron.ipcRenderer.on("refreshTabs", () => {
+    electron.remote.getCurrentWindow().reload()
+})
+
 require('fs').readdir('./Tabulars/', (err, files) => {
     if (err) console.error(err);
     

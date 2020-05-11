@@ -2,12 +2,15 @@
     "application": "Anwendung",
     "settings": "Einstellungen",
     "quit": "Schließen",
+    "addtab": "Tabelle hinzufügen",
     "about": "Über",
     "addrow": "Reihe hinzufügen",
     "editrow": "Reihe bearbeiten",
     "save": "Speichern",
     "date": "Datum",
     "inserttoday": "Heute einfügen",
+    "edittab": "Tabelle editieren",
+    "deletetab": "Tabelle löschen",
     "exporttab": "Export zu Excel",
     "closetab": "Tabelle schließen",
     "devtools": "Entwicklerwerkzeuge",
@@ -23,5 +26,10 @@
     "remove": "✖",
     "close": "Schließen",
     "searchresults": "Suchergebnisse",
-    "nosearchresults": "Es wurden keine Suchergebnisse gefunden."
+    "nosearchresults": "Es wurden keine Suchergebnisse gefunden.",
+    "name": "Name",
+    "addColumn": "Spalte hinzufügen",
+    "cancel": "Abbrechen",
+    "newTabNameMissing": "Bitte geben Sie ihrer neuen Tabelle einen Namen!",
+    "newTabInputEmpty": "Einer ihrer Spaltennamen ist leer!"
 }

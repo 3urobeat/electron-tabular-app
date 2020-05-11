@@ -1,27 +1,7 @@
 {
-    "1": {
-        "0": "01.01.2020",
-        "1": "Name",
-        "2": "At Home 1",
-        "3": "Wall clock",
-        "4": "Cleaned watch",
-        "5": "5€"
-    },
-    "2": {
-        "0": "02.04.2020",
-        "1": "Tom",
-        "2": "fdsfsd",
-        "3": "asdWA",
-        "4": "rehdher",
-        "5": "sgeSGE"
-    },
-    "name": "Big watches",
+    "name": "TEst",
     "columns": [
-        "Date",
-        "Name",
-        "Address",
-        "Type",
-        "Repair",
-        "Price"
+        "123",
+        "456"
     ]
 }

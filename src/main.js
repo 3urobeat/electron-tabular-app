@@ -179,6 +179,29 @@ function createSearchResultWindow(tabnumber, searchresults) {
     }));
 }
 
+function createAddTabWindow() {
+    addTabWindow = new BrowserWindow({
+        width: 700,
+        height: 500,
+        webPreferences: {
+            nodeIntegration: true }
+    })
+
+    addTabWindow.loadURL(url.format({ //Load html
+        pathname: path.join(__dirname, 'addTabWindow.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+}
+
+function createEditTabWindow() {
+
+}
+
+function createDeleteTabWindow() {
+    console.log("Delete!")
+}
+
 /*----------- Event Listener -----------*/
 ipcMain.on('tabButtonPress', function(event, tabnumber) {
     createTabWindow(tabnumber);
@@ -195,6 +218,9 @@ ipcMain.on('refreshTabWindow', () => {
 ipcMain.on('openSearchResultWindow', function(event, tabnumber, searchresults) {
     createSearchResultWindow(tabnumber, searchresults)
 })
+ipcMain.on('refreshStartWindow', () => {
+    startWindow.webContents.send("refreshTabs")
+})
 
 /*----------- Menu Templates -----------*/
 //Template for the start menu
@@ -202,6 +228,12 @@ const startMenuTemplate = [
     {
         label: lang.application,
         submenu: [
+            {
+                label: lang.addtab,
+                click() {
+                    createAddTabWindow();
+                }
+            },
             {
                 label: lang.settings,
                 click() {
@@ -228,6 +260,18 @@ const tabMenuTemplate = [
     {
         label: lang.tabular,
         submenu: [
+            {
+                label: lang.edittab,
+                click() {
+                    createEditTabWindow();
+                }
+            },
+            {
+                label: lang.deletetab,
+                click() {
+                    createDeleteTabWindow();
+                }
+            },
             {
                 label: lang.exporttab,
                 click() {

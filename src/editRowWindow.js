@@ -44,6 +44,6 @@ document.getElementById("editRowSaveBtn").addEventListener("click", () => {
 
     require("fs").writeFile(`./Tabulars/tab${tabnumber}.json`, JSON.stringify(thistab, null, 4), err => {
         if (err) return console.log(`error writing edited data to file: ${err}`)
-        electron.ipcRenderer.send("refreshTabWindow")
+        electron.ipcRenderer.send("refreshTabWindow") //refresh tab window to show changes
         window.close() })
 })

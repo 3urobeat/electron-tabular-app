@@ -2,12 +2,15 @@
     "application": "Application",
     "settings": "Settings",
     "quit": "Quit",
+    "addtab": "Add tabular",
     "about": "About",
     "addrow": "Add Row",
     "editrow": "Edit Row",
     "save": "Save",
     "date": "Date",
     "inserttoday": "Insert today",
+    "edittab": "Edit tabular",
+    "deletetab": "Delete tabular",
     "exporttab": "Export Tabular to Excel",
     "closetab": "Close Tabular",
     "devtools": "Developer Tools",
@@ -23,5 +26,10 @@
     "remove": "✖",
     "close": "Close",
     "searchresults": "Search Results",
-    "nosearchresults": "No search results found."
+    "nosearchresults": "No search results found.",
+    "name": "Name",
+    "addColumn": "Add column",
+    "cancel": "Cancel",
+    "newTabNameMissing": "Please give your new tabular a name!",
+    "newTabInputEmpty": "One of your column names is empty!"
 }
