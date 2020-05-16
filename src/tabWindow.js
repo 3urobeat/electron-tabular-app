@@ -1,6 +1,6 @@
 const electron = require('electron');
 const tabnumber = electron.remote.getCurrentWindow().tabnumber;
-var thistab = require(`../Tabulars/tab${tabnumber}`);
+var thistab = require(`${electron.remote.app.getAppPath()}/Tabulars/tab${tabnumber}`);
 if (require("../config.json").language === "english") var lang = require("./languages/english.json")
 if (require("../config.json").language === "german") var lang = require("./languages/german.json")
 
@@ -60,19 +60,11 @@ Object.keys(thistab).forEach((e, i) => { //loop through all keys
         td.appendChild(addRowBeneathButton)
 
         removebutton.textContent = lang.remove
-        removebutton.addEventListener("click", () => {
-            delete thistab[e]
-            
-            Object.keys(thistab).forEach((k) => { //subtract 1 from every key to close the gap
-                if (isNaN(k)) return;
-                if (k < e) return;
-                delete Object.assign(thistab, {[k - 1]: thistab[k] })[k] //Credit: https://stackoverflow.com/a/50101979/12934162 
-            })
 
-            require("fs").writeFile(`./Tabulars/tab${tabnumber}.json`, JSON.stringify(thistab, null, 4), err => {
-                if (err) return console.log(`error writing delete to file: ${err}`)
-                electron.remote.getCurrentWindow().reload() })
+        removebutton.addEventListener("click", () => {
+            electron.ipcRenderer.send("tabDeleteRow", e, thistab, tabnumber)
         })
+
         td.appendChild(removebutton)
 
         tr.appendChild(td);

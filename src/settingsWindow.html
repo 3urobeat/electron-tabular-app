@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    body {
+        background-color: white; }
+</style>
+
+<head>
+    <title>Loading...</title>
+
+    <script>
+        if (require("../config.json").language === "english") var lang = require("./languages/english.json")
+        if (require("../config.json").language === "german") var lang = require("./languages/german.json")
+    </script>
+</head>
+
+<body>
+    <h1><script>document.write(lang.settings)</script>:</h1>
+</body>
+
+<script>
+    require("./settingsWindow.js")
+</script>
+
+</html>

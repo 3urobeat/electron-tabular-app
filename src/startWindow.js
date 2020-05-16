@@ -1,4 +1,5 @@
 const electron = require('electron')
+
 if (require("../config.json").language === "english") var lang = require("./languages/english.json")
 if (require("../config.json").language === "german") var lang = require("./languages/german.json")
 
@@ -8,14 +9,14 @@ electron.ipcRenderer.on("refreshTabs", () => {
     electron.remote.getCurrentWindow().reload()
 })
 
-require('fs').readdir('./Tabulars/', (err, files) => {
+require('fs').readdir(`${electron.remote.app.getAppPath()}/Tabulars/`, (err, files) => {
     if (err) console.error(err);
     
     var tabulars = files.filter(f => f.split('.').pop() === 'json');
     if (tabulars.length <= 0) { return document.write(lang.notabularsfound) }
     
     tabulars.forEach((e, i) => {
-        var tabular = require(`../Tabulars/${e}`);
+        var tabular = require(`${electron.remote.app.getAppPath()}/Tabulars/${e}`);
         var newbutton = document.createElement("button")
         newbutton.textContent = tabular.name
         newbutton.addEventListener("click", () => {

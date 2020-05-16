@@ -39,22 +39,25 @@ document.getElementById("addTabSave").addEventListener("click", () => {
     datatowrite["name"] = document.getElementById("tabNameInput").value
 
     var inputarr = Array.from(document.getElementById("inputSection").getElementsByTagName("input"))
-    console.log(inputarr)
     datatowrite["columns"] = []
     inputarr.forEach((e) => {
         if (!document.getElementById(e.id).value || !document.getElementById(e.id).value.replace(/\s/g, '').length) {
             datatowrite = {} //clear datatowrite
-            return alert(lang.newTabInputEmpty)
+            return alert(lang.newTabInputEmpty) 
+        } else {
+            datatowrite["columns"].push(document.getElementById(e.id).value) 
+
+            if (Number(e.id) + 1 == inputarr.length) {
+                fs.readdirSync(`${electron.remote.app.getAppPath()}/Tabulars/`).forEach(file => {
+                    lastnumber = file.match(/\d+/)[0] //remove chars from string and save last tabnumber
+                });
+            
+                fs.writeFile(`${electron.remote.app.getAppPath()}/Tabulars/tab${Number(lastnumber) + 1}.json`, JSON.stringify(datatowrite, null, 4), (err) => {
+                    if (err) console.log("Error writing new tabular data! Error: " + err) })
+            
+                electron.ipcRenderer.send("refreshStartWindow")
+                window.close()
+            }
         }
-        datatowrite["columns"].push(document.getElementById(e.id).value) });
-
-    fs.readdirSync("./Tabulars/").forEach(file => {
-        lastnumber = file.match(/\d+/)[0] //remove chars from string and save last tabnumber
-    });
-
-    fs.writeFile(`./Tabulars/tab${Number(lastnumber) + 1}.json`, JSON.stringify(datatowrite, null, 4), (err) => {
-        if (err) console.log("Error writing new tabular data! Error: " + err) 
-        window.close() })
-
-    electron.ipcRenderer.send("refreshStartWindow")
+    })
 })

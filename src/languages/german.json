@@ -17,7 +17,7 @@
     "toggledevtools": "DevTools an/aus",
     "start": "Start",
     "choosetabular": "Bitte wählen Sie eine Tabelle",
-    "notabularsfound": "Es wurden keine Tabellen gefunden!",
+    "notabularsfound": "Es wurden keine Tabellen gefunden! Fügen Sie eine hinzu, indem sie auf Anwendung klicken!",
     "tabular": "Tabelle",
     "search": "Suche",
     "search2": "Suchen",
@@ -31,5 +31,11 @@
     "addColumn": "Spalte hinzufügen",
     "cancel": "Abbrechen",
     "newTabNameMissing": "Bitte geben Sie ihrer neuen Tabelle einen Namen!",
-    "newTabInputEmpty": "Einer ihrer Spaltennamen ist leer!"
+    "newTabInputEmpty": "Einer ihrer Spaltennamen ist leer!",
+    "yes": "Ja",
+    "no": "Nein",
+    "confirmDeleteTab": "Sind Sie sich sicher diese Tabelle löschen zu wollen?",
+    "confirmDeleteRow": "Sind Sie sich sicher diese Reihe löschen zu wollen?",
+    "editTabNameMissing": "Bitte geben Sie ihrer Tabelle einen Namen!",
+    "column": "Spalte"
 }

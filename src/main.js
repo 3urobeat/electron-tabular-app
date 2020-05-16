@@ -82,7 +82,7 @@ function createExportTabToExcelWindow() {
     var sheet = workbook.addWorksheet('Sheet1');
 
     let tabnumber = electron.BrowserWindow.getFocusedWindow().tabnumber;
-    var thistab = require(`../Tabulars/tab${tabnumber}`)
+    var thistab = require(`${app.getAppPath()}/Tabulars/tab${tabnumber}`)
 
     var mycolumns = []
 
@@ -121,8 +121,8 @@ function createExportTabToExcelWindow() {
     });
 }
 function createEditRowWindow(tabnumber, e) {
-    var thistab = require(`../Tabulars/tab${tabnumber}`)
-    var height = 250 + thistab["columns"].length * 24
+    let thistab = require(`${app.getAppPath()}/Tabulars/tab${tabnumber}`)
+    let height = 250 + thistab["columns"].length * 24
 
     editRowWindow = new BrowserWindow({
         width: 400,
@@ -141,8 +141,8 @@ function createEditRowWindow(tabnumber, e) {
 }
 
 function createAddRowWindow(tabnumber, customNewKey) {
-    var thistab = require(`../Tabulars/tab${tabnumber}`)
-    var height = 250 + thistab["columns"].length * 24
+    let thistab = require(`${app.getAppPath()}/Tabulars/tab${tabnumber}`)
+    let height = 250 + thistab["columns"].length * 24
 
     addRowWindow = new BrowserWindow({
         width: 400,
@@ -161,7 +161,7 @@ function createAddRowWindow(tabnumber, customNewKey) {
 }
 
 function createSearchResultWindow(tabnumber, searchresults) {
-    var height = 250 + searchresults.length * 30
+    let height = 250 + searchresults.length * 30
 
     searchResultWindow = new BrowserWindow({
         width: 700,
@@ -195,11 +195,64 @@ function createAddTabWindow() {
 }
 
 function createEditTabWindow() {
+    let tabnumber = electron.BrowserWindow.getFocusedWindow().tabnumber;
+    let thistab = require(`${app.getAppPath()}/Tabulars/tab${tabnumber}`)
+    let height = 250 + thistab["columns"].length * 24
 
+    editTabWindow = new BrowserWindow({
+        width: 400,
+        height: height,
+        webPreferences: {
+            nodeIntegration: true }
+    })
+    editTabWindow.tabnumber = tabnumber
+
+    editTabWindow.loadURL(url.format({ //Load html
+        pathname: path.join(__dirname, 'editTabWindow.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
 }
 
 function createDeleteTabWindow() {
-    console.log("Delete!")
+    let tabnumber = electron.BrowserWindow.getFocusedWindow().tabnumber;
+    let fs = require("fs");
+    let options  = {
+        buttons: [lang.yes, lang.no],
+        message: lang.confirmDeleteTab
+       }
+    electron.dialog.showMessageBox(options).then((cb) => {
+        if (cb.response == 0) { //response is yes, go ahead and delete the tabular
+            fs.unlink(`${app.getAppPath()}/Tabulars/tab${tabnumber}.json`, (err) => {
+                if (err) console.log(`Error deleting tabular ${tabnumber}: ${err}`) })
+
+            fs.readdirSync(`${app.getAppPath()}/Tabulars/`).forEach(file => {
+                let thisnumber = file.match(/\d+/)[0] //remove chars from string and save last tabnumber
+                if (thisnumber <= tabnumber) return;
+                fs.rename(`${app.getAppPath()}/Tabulars/tab${thisnumber}.json`, `${app.getAppPath()}/Tabulars/tab${Number(thisnumber) - 1}.json`, (err) => {
+                    if (err) console.log(`Error renaming tabular ${thisnumber}: ${err}`)
+                })
+            });
+                
+            startWindow.webContents.send("refreshTabs")
+            electron.BrowserWindow.getFocusedWindow().close()
+        }
+    })
+}
+
+function createSettingsWindow() {
+    settingsWindow = new BrowserWindow({
+        width: 400,
+        height: 400,
+        webPreferences: {
+            nodeIntegration: true }
+    })
+
+    settingsWindow.loadURL(url.format({ //Load html
+        pathname: path.join(__dirname, 'settingsWindow.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
 }
 
 /*----------- Event Listener -----------*/
@@ -221,6 +274,26 @@ ipcMain.on('openSearchResultWindow', function(event, tabnumber, searchresults) {
 ipcMain.on('refreshStartWindow', () => {
     startWindow.webContents.send("refreshTabs")
 })
+ipcMain.on('tabDeleteRow', function(event, e, thistab, tabnumber) { //doing this here because pressing a button reloads the form and forgets what to delete (my program has Alzheimer I guess)
+    var options  = {
+        buttons: [lang.yes, lang.no],
+        message: lang.confirmDeleteRow }
+
+    electron.dialog.showMessageBox(options).then((cb) => {
+        if (cb.response == 0) {
+            delete thistab[e]
+            
+            Object.keys(thistab).forEach((k) => { //subtract 1 from every key to close the gap
+                if (isNaN(k)) return;
+                if (k < e) return;
+                delete Object.assign(thistab, {[k - 1]: thistab[k] })[k] //Credit: https://stackoverflow.com/a/50101979/12934162 
+            })
+
+            require("fs").writeFile(`${app.getAppPath()}/Tabulars/tab${tabnumber}.json`, JSON.stringify(thistab, null, 4), err => {
+                if (err) return console.log(`error writing delete to file: ${err}`)
+                tabWindow.webContents.send("refreshTabs")
+            }) } })
+})
 
 /*----------- Menu Templates -----------*/
 //Template for the start menu
@@ -237,8 +310,8 @@ const startMenuTemplate = [
             {
                 label: lang.settings,
                 click() {
-                    //Open Settings Menu
-                    console.log("Settings!") }
+                    createSettingsWindow();
+                }
             },
             {
                 label: lang.quit,

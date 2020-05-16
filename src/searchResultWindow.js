@@ -1,7 +1,7 @@
 const electron = require('electron')
 var searchresults = electron.remote.getCurrentWindow().searchresults;
 const tabnumber = electron.remote.getCurrentWindow().tabnumber;
-var thistab = require(`../Tabulars/tab${tabnumber}`);
+var thistab = require(`${electron.remote.app.getAppPath()}/Tabulars/tab${tabnumber}`);
 
 if (require("../config.json").language === "english") var lang = require("./languages/english.json")
 if (require("../config.json").language === "german") var lang = require("./languages/german.json")
@@ -63,23 +63,30 @@ Object.keys(searchresults).forEach((e) => { //loop through all keys
         
         removebutton.textContent = lang.remove
         removebutton.addEventListener("click", () => {
-            delete thistab[e];
-            delete searchresults[e];
-            
-            Object.keys(thistab).forEach((k) => {
-                if (isNaN(k)) return;
-                if (k < e) return;
-                delete Object.assign(thistab, {[k - 1]: thistab[k] })[k] //Credit: https://stackoverflow.com/a/50101979/12934162 
-            })
+            let options  = {
+                buttons: [lang.yes, lang.no],
+                message: lang.confirmDeleteRow
+               }
+            electron.remote.dialog.showMessageBox(options).then((cb) => {
+                if (cb.response == 0) {
+                    delete thistab[e];
+                    delete searchresults[e];
+                    
+                    Object.keys(thistab).forEach((k) => {
+                        if (isNaN(k)) return;
+                        if (k < e) return;
+                        delete Object.assign(thistab, {[k - 1]: thistab[k] })[k] //Credit: https://stackoverflow.com/a/50101979/12934162 
+                    })
 
-            require("fs").writeFile(`./Tabulars/test.json`, JSON.stringify(searchresults, null, 4), err => {
-                if (err) return console.log(`error writing delete to file: ${err}`) })
+                    require("fs").writeFile(`${electron.remote.app.getAppPath()}/Tabulars/test.json`, JSON.stringify(searchresults, null, 4), err => {
+                        if (err) return console.log(`error writing delete to file: ${err}`) })
 
-            require("fs").writeFile(`./Tabulars/tab${tabnumber}.json`, JSON.stringify(thistab, null, 4), err => {
-                if (err) return console.log(`error writing delete to file: ${err}`)
-                electron.remote.getCurrentWindow().reload()
-                electron.ipcRenderer.send("refreshTabWindow") })
-        })
+                    require("fs").writeFile(`${electron.remote.app.getAppPath()}/Tabulars/tab${tabnumber}.json`, JSON.stringify(thistab, null, 4), err => {
+                        if (err) return console.log(`error writing delete to file: ${err}`)
+                        electron.remote.getCurrentWindow().reload()
+                        electron.ipcRenderer.send("refreshTabWindow") 
+                    }) }}) })
+
         td.appendChild(removebutton)
 
         tr.appendChild(td);

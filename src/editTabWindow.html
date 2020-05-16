@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    body {
+        background-color: white; }
+</style>
+
+<head>
+    <title>Loading...</title>
+
+    <script>
+        if (require("../config.json").language === "english") var lang = require("./languages/english.json")
+        if (require("../config.json").language === "german") var lang = require("./languages/german.json")
+    </script>
+</head>
+
+<body>
+    <h1><script>document.write(lang.edittab)</script>:</h1>
+    <label><script>document.write(lang.name)</script>:</label>
+    <input id="editTabNameInput"></input>
+    <br></br>
+    <form id="editTabColumnInput"></form>
+    <button id="editTabAddColumn"><script>document.write(lang.addColumn)</script></button>
+    <br></br>
+    <button id="editTabSaveBtn"><script>document.write(lang.save)</script></button>
+    <button id="editTabCancelBtn" onclick="window.close()"><script>document.write(lang.cancel)</script></button>
+</body>
+
+<script>
+    require("./editTabWindow.js")
+</script>
+
+</html>

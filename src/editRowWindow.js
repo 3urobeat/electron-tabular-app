@@ -1,7 +1,7 @@
 const electron = require('electron')
 const tabnumber = electron.remote.getCurrentWindow().tabnumber;
 const editKey = electron.remote.getCurrentWindow().editKey;
-var thistab = require(`../Tabulars/tab${tabnumber}`);
+var thistab = require(`${electron.remote.app.getAppPath()}/Tabulars/tab${tabnumber}`);
 
 if (require("../config.json").language === "english") var lang = require("./languages/english.json")
 if (require("../config.json").language === "german") var lang = require("./languages/german.json")
@@ -42,7 +42,7 @@ document.getElementById("editRowSaveBtn").addEventListener("click", () => {
         thistab[editKey][i] = thisinputvalue
     }) 
 
-    require("fs").writeFile(`./Tabulars/tab${tabnumber}.json`, JSON.stringify(thistab, null, 4), err => {
+    require("fs").writeFile(`${electron.remote.app.getAppPath()}/Tabulars/tab${tabnumber}.json`, JSON.stringify(thistab, null, 4), err => {
         if (err) return console.log(`error writing edited data to file: ${err}`)
         electron.ipcRenderer.send("refreshTabWindow") //refresh tab window to show changes
         window.close() })

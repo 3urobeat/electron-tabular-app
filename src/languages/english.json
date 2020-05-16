@@ -17,7 +17,7 @@
     "toggledevtools": "Toggle DevTools",
     "start": "Start",
     "choosetabular": "Please choose a tabular",
-    "notabularsfound": "No tabulars have been found!",
+    "notabularsfound": "No tabulars have been found! You can add one by clicking on Application!",
     "tabular": "Tabular",
     "search": "Search",
     "search2": "Search",
@@ -31,5 +31,11 @@
     "addColumn": "Add column",
     "cancel": "Cancel",
     "newTabNameMissing": "Please give your new tabular a name!",
-    "newTabInputEmpty": "One of your column names is empty!"
+    "newTabInputEmpty": "One of your column names is empty!",
+    "yes": "Yes",
+    "no": "No",
+    "confirmDeleteTab": "Are you sure that you want to delete this tabular?",
+    "confirmDeleteRow": "Are you sure that you want to delete this row?",
+    "editTabNameMissing": "Please give your tabular a name!",
+    "column": "Column"
 }

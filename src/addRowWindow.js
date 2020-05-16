@@ -1,7 +1,7 @@
 const electron = require('electron')
 const tabnumber = electron.remote.getCurrentWindow().tabnumber;
 const customNewKey = electron.remote.getCurrentWindow().customNewKey;
-var thistab = require(`../Tabulars/tab${tabnumber}`);
+var thistab = require(`${electron.remote.app.getAppPath()}/Tabulars/tab${tabnumber}`);
 
 if (require("../config.json").language === "english") var lang = require("./languages/english.json")
 if (require("../config.json").language === "german") var lang = require("./languages/german.json")
@@ -66,6 +66,8 @@ Object.values(thistab["columns"]).forEach((e, i) => {                // tdc  = t
 document.getElementById('addRowValueInput').appendChild(table);
 
 document.getElementById("addRowToTabBtn").addEventListener("click", () => {
+    thistabnewkey = 0;
+    
     if (customNewKey) {
         thistabnewkey = customNewKey
 
@@ -80,7 +82,7 @@ document.getElementById("addRowToTabBtn").addEventListener("click", () => {
             thistabnewkey = Number(e) + 1 });
     }
 
-    thistab[thistabnewkey] = { }
+    thistab[thistabnewkey] = {}
 
     Object.values(thistab["columns"]).forEach((e, i) => {  
         var thisinputvalue = document.getElementById(e).value
@@ -90,7 +92,7 @@ document.getElementById("addRowToTabBtn").addEventListener("click", () => {
         thistab[thistabnewkey][thisindex] = thisinputvalue
     }) 
 
-    require("fs").writeFile(`./Tabulars/tab${tabnumber}.json`, JSON.stringify(thistab, null, 4), err => {
+    require("fs").writeFile(`${electron.remote.app.getAppPath()}/Tabulars/tab${tabnumber}.json`, JSON.stringify(thistab, null, 4), err => {
         if (err) return console.log(`error writing new data to file: ${err}`)
         electron.ipcRenderer.send("refreshTabWindow")
         window.close() })
