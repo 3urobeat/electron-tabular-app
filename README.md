@@ -1,5 +1,5 @@
 # electron-tabular-app
-A small tabular management app writting in JS with electron.  
+A small tabular management app written in JS with electron.  
 This app is intentionally very basic and was made for my mom to quickly and easily take track of work related things.
 
 🚧 This project is not finished yet.
