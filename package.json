@@ -9,7 +9,7 @@
   "author": "3urobeat",
   "license": "ISC",
   "dependencies": {
-    "electron": "^8.2.0",
+    "electron": "^8.2.4",
     "exceljs": "^3.8.2"
   }
 }
